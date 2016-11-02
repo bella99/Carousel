@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算时间</title>
+</head>
+<body>
+</body>
+</html>
+<script>
+    /**
+     * Created by beibei on 2016/10/21.
+     */
+    var date;
+    if(date=prompt("请输入您选择的日期,时间格式为yyyy-mm-dd，输入next可退出")){
+        if(date!="exit"){
+            judgeFormat(date);
+        }
+    };
+    function judgeFormat(date){
+        if(date == "exit"){return;}
+        var reg = /^(\d{4})-(\d{2})-(\d{2})$/,
+                tip;
+        if(reg.test(date)){
+            var date1 = date.split("-");
+            var day = dayOfYear(parseInt(date1[0]),parseInt(date1[1]),parseInt(date1[2]));
+            tip = date+"是"+date1[0]+"年的第"+day+"天,";
+        }else{
+            tip = "您输入的日期格式错误，请重新输入,";
+        };
+        if(date=prompt(tip+"时间格式为yyyy-mm-dd，输入exit可退出")){
+            judgeFormat(date);
+        }
+    };
+    function dayOfYear(yy,mm,dd){
+        var Feb;//假设大于2 月均为31天
+        (yy % 4 == 0 && yy % 400 != 0)?Feb=29:Feb=28;
+        var thisDay=(mm-2)*31+dd+Feb;
+        switch (mm){
+            case 1:
+                thisDay=dd;
+                break;
+            case 2:
+                thisDay=31+dd;
+                break;
+            case 3:
+                thisDay;
+                break;
+            case 4:
+                thisDay;
+                break;
+            case 5:
+                thisDay-=1;
+                break;
+            case 6:
+                thisDay-=1;
+                break;
+            case 7:
+                thisDay-=2;
+                break;
+            case 8:
+                thisDay-=2;
+                break;
+            case 9:
+                thisDay-=2;
+                break;
+            case 10:
+                thisDay-=3;
+                break;
+            case 11:
+                thisDay-=3;
+                break;
+            case 12:
+                thisDay-=4;
+                break;
+        }
+        return thisDay;
+    }
+</script>

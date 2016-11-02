@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Flash Cast and Crew</title>
+    <link rel="stylesheet" href="cast.css">
+</head>
+<body>
+</body>
+</html>
+<script type="text/template" id="tpl">
+    <h1>The Flash Cast and Crew</h1>
+    <div class="fixed-window">
+        <ul class="casts">
+            <% _.each(casts, function (item) { %>
+            <!--repeat-->
+            <li class="cast part-box">
+                <div class="part-box cast-img">
+                    <img src="../img/<%= item.img %>" width="100%" alt="<%= item.name %>">
+                </div>
+                <div class="part-box cast-info">
+                    <div class="person-info">
+                        <h2><%= item.name %></h2>
+                        <p class="text-just"><%= item.bio %></p>
+                    </div>
+                    <button>Show Bio</button>
+                </div>
+            </li>
+            <% }); %>
+        </ul>
+    </div>
+</script>
+<script type="text/javascript" src="../jquery.min.js"></script>
+<script type="text/javascript" src="../underscore-min.js"></script>
+<!--<script type="text/javascript" src="server.js"></script>-->
+<script type="text/javascript">
+    var casts = [];
+    var locationHref=window.location.href;
+    var local=locationHref.substring(0,locationHref.length-15);
+    $.ajax({
+        url: local+'theFlash.json',
+        type: 'GET',
+        dataType: 'json',
+        data: {},
+        timeout:1000,
+        async:false,
+        beforeSend:function(){
+
+        },
+        success: function (data) {
+            casts = data.casts;
+            return casts;
+        },
+        error:function(){
+            alert('如果没有显示数据，请在IE中打开此文件；或者配置chrome参数如下：打开快捷方式属性，在“目标”后面加上--allow-file-access-from-files，注意前面有个空格，重新打开Chrome即可。')
+        }
+    });
+    $('body').html(_.template($('#tpl').html(), casts));
+
+
+//    轮播参数
+    var castsNum=$('.casts').children().length;//卡片总个数
+    var fixWidth=$('.fixed-window').width();//外部盒子宽度
+//    计算盒子宽度
+    $('.cast').css({'width':(fixWidth/2)+'px'});
+    var moveW=$('.cast').width()+10;//padding值
+    $('.casts').css({'width':moveW*castsNum+'px'});
+    $('.fixed-window').css({'height':($('.casts').height())+20+'px'});
+    $('.person-info').hide();
+
+
+    var index=0;
+    var timer=autoMove();
+
+    function autoMove(){//定时器
+       return setInterval(moveLeft,2000);
+    }
+
+    function stopMove(){//停止动画
+        clearInterval(timer);
+    }
+    function moveLeft(){
+        var left=$('.casts').position().left;
+        if(index==(castsNum/2-1)){
+            $('.casts').animate({'left':'0px'});
+            index=0;
+        }else{
+            $('.casts').animate({'left':'-='+fixWidth+'px'},1000)
+            index+=1;
+        }
+    }
+
+    $('.casts').hover(function(){//划过切换轮播状态
+        clearInterval(timer);
+        var flag=false;
+        $('button').click(function(){
+            if(!flag){
+                $(this).html('Hide Bio').prev().slideDown();
+                flag=true;
+            }else{
+                $(this).html('Show Bio').prev().slideUp();
+                flag=false;
+            }
+        })
+    },function(){
+        timer=autoMove();
+    });
+</script>
+
+

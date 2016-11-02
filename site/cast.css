@@ -1,0 +1,47 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: "微软雅黑", Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
+}
+
+ul, li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/*通用样式*/
+.part-box {
+    display: inline-block;
+    float: left;
+}
+
+/*外层展示窗口*/
+.fixed-window {
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+}
+
+/*轮播列表*/
+.fixed-window .casts {
+    overflow: hidden;
+    position: absolute;
+}
+
+/*每个卡片*/
+.fixed-window .casts .cast {
+    padding: 0 5px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.fixed-window .casts .cast > div {
+    width: 48%;
+    padding: 0 1%;
+}
+
+.text-just {
+    text-align: justify;
+}

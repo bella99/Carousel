@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+    <title>算时间</title>
+    <meta charset="utf-8">
+</head>
+<body>
+
+</body>
+<script>
+    /**
+     * Created by beibei on 2016/10/21.
+     */
+    var date;
+    if(date=prompt("请输入您选择的日期,时间格式为yyyy-mm-dd，输入eixt可退出")){
+        if(date!="exit"){
+            judgeFormat(date);
+        }
+    };
+    function judgeFormat(date){
+        if(date == "exit"){return;}
+        var reg = /^(\d{4})-(\d{2})-(\d{2})$/,
+                tip;
+        if(reg.test(date)){
+            var date1 = date.split("-");
+            var day = dayOfYear(parseInt(date1[0]),parseInt(date1[1]),parseInt(date1[2]));
+            tip = date+"是"+date1[0]+"年的第"+day+"天,";
+        }else{
+            tip = "您输入的日期格式错误，请重新输入,";
+        };
+        if(date=prompt(tip+"时间格式为yyyy-mm-dd，输入exit可退出")){
+            judgeFormat(date);
+        }
+    };
+    function dayOfYear(year,month,day){
+        var startDay = new Date(year,0,1),
+                lastDay = new Date(year,month-1,day),
+                day,dayTime;
+        dayTime = (lastDay.getTime()-startDay.getTime());
+        return parseInt(dayTime/1000/60/60/24)+1;
+    }
+</script>
+</html>
